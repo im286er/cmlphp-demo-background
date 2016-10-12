@@ -27,7 +27,11 @@ class SystemLogController extends CommonController
             ->displayWithLayout('System/SystemLog/list', 'regional');
     }
 
-    //ajax请求分页
+    /**
+     * ajax请求分页
+     *
+     * @acljump adminbase/System/SystemLog/index
+     */
     public function ajaxPage()
     {
         $systemLogModel = new SystemLogModel();

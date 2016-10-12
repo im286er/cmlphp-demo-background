@@ -124,26 +124,15 @@ INSERT INTO `pr_menus` VALUES ('18', '12', '系统日志', 'adminbase/System/Sys
 INSERT INTO `pr_menus` VALUES ('20', '3', '删除菜单', 'adminbase/Acl/Menus/del', '0', '0');
 INSERT INTO `pr_menus` VALUES ('26', '2', '删除用户', 'adminbase/Acl/Users/del', '0', '0');
 INSERT INTO `pr_menus` VALUES ('22', '1', '用户组管理', 'adminbase/Acl/Groups/index', '1', '0');
-INSERT INTO `pr_menus` VALUES ('25', '2', '保存用户', 'adminbase/Acl/Users/save', '0', '0');
-INSERT INTO `pr_menus` VALUES ('28', '2', '用户分页-查看', 'adminbase/Acl/Users/ajaxPage', '0', '0');
-INSERT INTO `pr_menus` VALUES ('29', '3', '保存菜单', 'adminbase/Acl/Menus/save', '0', '0');
 INSERT INTO `pr_menus` VALUES ('30', '22', '用户组添加', 'adminbase/Acl/Groups/add', '0', '0');
 INSERT INTO `pr_menus` VALUES ('31', '22', '用户组编辑', 'adminbase/Acl/Groups/edit', '0', '0');
 INSERT INTO `pr_menus` VALUES ('32', '22', '用户组删除', 'adminbase/Acl/Groups/del', '0', '0');
 INSERT INTO `pr_menus` VALUES ('33', '11', '用户授权', 'adminbase/Acl/Acl/user', '0', '0');
 INSERT INTO `pr_menus` VALUES ('34', '11', '用户组授权', 'adminbase/Acl/Acl/group', '0', '0');
-INSERT INTO `pr_menus` VALUES ('35', '22', '用户组-分页查看', 'adminbase/Acl/Groups/ajaxPage', '0', '0');
-INSERT INTO `pr_menus` VALUES ('36', '22', '用户组保存', 'adminbase/Acl/Users/save', '0', '0');
-INSERT INTO `pr_menus` VALUES ('37', '2', '修改个人资料 -展示表单', 'adminbase/Acl/Users/editSelfInfo', '0', '0');
-INSERT INTO `pr_menus` VALUES ('38', '2', '修改个人资料 - 保存', 'adminbase/Acl/Users/saveSelfInfo', '0', '0');
-INSERT INTO `pr_menus` VALUES ('39', '18', '系统日志分页', 'adminbase/System/SystemLog/ajaxPage', '0', '0');
+INSERT INTO `pr_menus` VALUES ('37', '2', '修改个人资料', 'adminbase/Acl/Users/editSelfInfo', '0', '0');
 INSERT INTO `pr_menus` VALUES ('43', '12', '登录日志', 'adminbase/System/LoginLog/index', '1', '0');
-INSERT INTO `pr_menus` VALUES ('44', '43', '登录日志分页', 'adminbase/System/LoginLog/ajaxPage', '0', '0');
 INSERT INTO `pr_menus` VALUES ('60', '12', '后台首页', 'adminbase/System/Index/index', '0', '0');
-INSERT INTO `pr_menus` VALUES ('66', '65', '重要操作日志分页', 'adminbase/System/ActionLog/ajaxPage', '0', '0');
 INSERT INTO `pr_menus` VALUES ('65', '12', '重要操作日志', 'adminbase/System/ActionLog/index', '1', '0');
-INSERT INTO `pr_menus` VALUES ('75', '11', '保存', 'adminbase/Acl/Acl/save', '0', '0');
-INSERT INTO `pr_menus` VALUES ('109', '2', '修改密码', 'adminbase/Acl/Users/editPassword', '0', '0');
 INSERT INTO `pr_menus` VALUES ('181', '0', '演示自定义模块', 'custom', '1', '0');
 INSERT INTO `pr_menus` VALUES ('182', '181', '点我', 'custom/OpData/index', '1', '0');
 

@@ -26,7 +26,11 @@ class LoginLogController extends CommonController
             ->displayWithLayout('System/LoginLog/list', 'regional');
     }
 
-    //ajax分页
+    /**
+     * ajax请求分页
+     *
+     * @acljump adminbase/System/LoginLog/index
+     */
     public function ajaxPage()
     {
         $loginLogModel = new LoginLogModel();

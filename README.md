@@ -8,4 +8,12 @@
  
 ##### 相关的数据库文件为 根目录下的`db.sql`
 
-##### 框架使用先参考[相关手册](http://cmlphp.com/) 
+##### 框架使用请参考[相关手册](http://cmlphp.com/) 
+
+##### 初始用户名密码  admin 123456
+
+#### 以下为截图
+![](http://o7v4k1oiv.bkt.clouddn.com/background-login.jpg)
+![](http://o7v4k1oiv.bkt.clouddn.com/background-index.jpg)
+![](http://o7v4k1oiv.bkt.clouddn.com/background-log.jpg)
+![](http://o7v4k1oiv.bkt.clouddn.com/background-menu.jpg)

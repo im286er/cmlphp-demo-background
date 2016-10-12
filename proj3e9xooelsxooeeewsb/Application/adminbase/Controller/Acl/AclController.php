@@ -88,6 +88,7 @@ class AclController extends CommonController
     /**
      * 保存授权信息
      *
+     * @acljump adminbase/Acl/Acl/group|adminbase/Acl/Acl/user
      */
     public function save()
     {

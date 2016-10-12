@@ -34,7 +34,11 @@ class GroupsController extends CommonController
             ->displayWithLayout('Acl/Groups/index', 'regional');
     }
 
-    //ajax请求分页
+    /**
+     * ajax请求分页
+     *
+     * @acljump adminbase/Acl/Groups/index
+     */
     public function ajaxPage()
     {
         $groupsModel = new GroupsModel();
@@ -85,6 +89,8 @@ class GroupsController extends CommonController
 
     /**
      * 保存用户组
+     *
+     * @acljump adminbase/Acl/Groups/add|adminbase/Acl/Groups/edit
      *
      */
     public function save()

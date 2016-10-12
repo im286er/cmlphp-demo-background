@@ -14,9 +14,9 @@ $config = array(
             'host' => 'localhost', //数据库主机
             'username' => 'root', //数据库用户名
             'password' =>'', //数据库密码
-            'dbname' => 'yhzr_curs', //数据库名#bbs
+            'dbname' => 'dbname', //数据库名#bbs
             'charset' => 'utf8mb4', //数据库编码
-            'tableprefix' => 'hadm_', //数据表前缀
+            'tableprefix' => 'pr_', //数据表前缀
             'pconnect' => false, //是否开启数据库长连接
             'engine'=>''//数据库引擎
         ),

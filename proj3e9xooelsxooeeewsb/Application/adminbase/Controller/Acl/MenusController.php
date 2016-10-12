@@ -50,6 +50,8 @@ class MenusController extends CommonController
     /**
      * 保存菜单
      *
+     * @acljump adminbase/Acl/Menus/add|adminbase/Acl/Menus/edit
+     *
      */
     public function save()
     {

@@ -19,7 +19,6 @@ use adminbase\Model\Acl\GroupsModel;
 use adminbase\Model\Acl\UsersModel;
 use Cml\Vendor\Validate;
 use adminbase\Server\SearchServer;
-use nd\Interface99;
 
 class UsersController extends CommonController
 {
@@ -39,7 +38,11 @@ class UsersController extends CommonController
             ->displayWithLayout('Acl/Users/index', 'regional');
     }
 
-    //ajax请求分页
+    /**
+     * ajax请求分页
+     *
+     * @acljump adminbase/Acl/Users/index
+     */
     public function ajaxPage()
     {
         $usersModel = new UsersModel();
@@ -98,6 +101,8 @@ class UsersController extends CommonController
     /**
      * 保存用户
      *
+     * @acljump adminbase/Acl/Users/add|adminbase/Acl/Users/edit
+     *
      */
     public function save()
     {
@@ -106,7 +111,6 @@ class UsersController extends CommonController
 
         $id > 0 && ( AclServer::currentLoginUserIsHadPermisionToOpUser($id) || $this->renderJson(-2, '您所有的用户组没有操作该用户[组]的权限!'));
 
-        $is_99u = Input::postInt('is_99u');
         $username = Input::postString('username');
         $data['nickname'] = Input::postString('nickname');
         $data['password'] = Input::postString('password');
@@ -120,25 +124,16 @@ class UsersController extends CommonController
             $this->renderJson(-2, "您所有的用户组没有权限将该用户的用户组设为【{$newGroupInfo['name']}】!");
         }
 
-        if ($is_99u) {
-            if ($username) {
-                is_numeric($username) || $this->renderJson(-1, '请输入正确用户名！');
-                $user99u = Interface99::Get91UserInfo($username);
-                $data['nickname'] = $user99u->UserName;
-                is_object($user99u) || $this->renderJson(-1, '该用户名非99U用户，请重新选择！');
-            }
-        } else {
-            if (mb_strlen($data['nickname']) < 3 || mb_strlen($data['nickname']) > 20) {
-                $this->renderJson(-1, '昵称长度必须大于3小于20！');
-            }
+        if (mb_strlen($data['nickname']) < 3 || mb_strlen($data['nickname']) > 20) {
+            $this->renderJson(-1, '昵称长度必须大于3小于20！');
+        }
 
-            if ($id < 1 || isset($data['password'])){
-                if (mb_strlen($data['password']) < 6) {
-                    $this->renderJson(-1, '密码长度必须大于6小于20！');
-                }
-                if ($data['password'] != $data['checkpassword']) {
-                    $this->renderJson(-1, '两次密码输入不正确，请重新输入！');
-                }
+        if ($id < 1 || isset($data['password'])){
+            if (mb_strlen($data['password']) < 6) {
+                $this->renderJson(-1, '密码长度必须大于6小于20！');
+            }
+            if ($data['password'] != $data['checkpassword']) {
+                $this->renderJson(-1, '两次密码输入不正确，请重新输入！');
             }
         }
 
@@ -158,18 +153,13 @@ class UsersController extends CommonController
         if (is_null($id)) {//新增
             $equalName && $this->renderJson(-1, '用户名已存在');
             $data['username'] = $username;
-            if ($is_99u) {
-                unset($data['password']);
-                $data['is_99u'] = 1;
-            }
             $data['ctime'] = Cml::$nowTime;
             $res = $usersModel->set($data);
         } else  {
             if ($equalName && $equalName['id'] != $id) {
                 $this->renderJson(-1, '用户名已存在');
             }
-            $userinfo = $usersModel->getByColumn($id);
-            $userinfo['is_99u'] || $data['username'] = $username;
+            $data['username'] = $username;
             $data['stime'] = Cml::$nowTime;
 
             LogServer::addActionLog("修改了用户[{$id}]的信息".json_encode($data));
@@ -234,7 +224,7 @@ class UsersController extends CommonController
     }
 
     /**
-     * 修改个人资料 -展示表单
+     * 修改个人资料
      *
      */
     public function editSelfInfo()
@@ -250,6 +240,8 @@ class UsersController extends CommonController
     /**
      * 修改个人资料 - 保存
      *
+     * @acljump adminbase/Acl/Users/editSelfInfo
+     *
      */
     public function saveSelfInfo()
     {
@@ -261,65 +253,33 @@ class UsersController extends CommonController
         $data['nickname'] = Input::postString('nickname');
         $data['stime'] = Cml::$nowTime;
 
-        if ($user['is_99u'] != '1') {
-            if (isset($_POST['oldpwd']) && Validate::isLength($_POST['oldpwd'], 6, 20)) {
-                if ($user['password'] != md5(md5($_POST['oldpwd']) . Config::get('password_salt'))) {
-                    exit(json_encode(array(
-                        'code' => -2,
-                        'msg' => '旧密码错误'
-                    )));
-                }
-
-                if ($_POST['pwd'] != $_POST['repwd']) {
-                    exit(json_encode(array(
-                        'code' => -2,
-                        'msg' => '两次输入密码不一致！'
-                    )));
-                }
-
-                if (!Validate::isLength($_POST['pwd'], 6, 20)) {
-                    exit(json_encode(array(
-                        'code' => -2,
-                        'msg' => '新密码长度必须为6-20个字符！'
-                    )));
-                }
-                $data['password'] = md5(md5($_POST['pwd']) . Config::get('password_salt'));
-                Acl::logout();
+        if (isset($_POST['oldpwd']) && Validate::isLength($_POST['oldpwd'], 6, 20)) {
+            if ($user['password'] != md5(md5($_POST['oldpwd']) . Config::get('password_salt'))) {
+                exit(json_encode(array(
+                    'code' => -2,
+                    'msg' => '旧密码错误'
+                )));
             }
+
+            if ($_POST['pwd'] != $_POST['repwd']) {
+                exit(json_encode(array(
+                    'code' => -2,
+                    'msg' => '两次输入密码不一致！'
+                )));
+            }
+
+            if (!Validate::isLength($_POST['pwd'], 6, 20)) {
+                exit(json_encode(array(
+                    'code' => -2,
+                    'msg' => '新密码长度必须为6-20个字符！'
+                )));
+            }
+            $data['password'] = md5(md5($_POST['pwd']) . Config::get('password_salt'));
+            Acl::logout();
         }
+
         if ($userModel->updateByColumn($user['id'], $data)) {
             $this->renderJson(0, '修改成功');
-        }
-    }
-
-    /**
-     * 验证用户是否为99u
-     *
-     */
-    public function ver()
-    {
-        $username = Input::postString('username');
-
-        if (!is_numeric($username)) {
-            $this->renderJson(0, '请输入正确用户名！');
-        }
-        try {
-            $is_99u = Interface99::Get91UserInfo($username);
-        } catch (\Exception $ex) {
-            unset($is_99u);
-        }
-
-        if (count($is_99u) == '1') {
-            exit(json_encode(array(
-                'code' => 1,
-                'nickname' => $username,
-                'msg' => '用户存在'
-            )));
-        } else {
-            exit(json_encode(array(
-                'code' => -1,
-                'msg' => '用户不存在'
-            )));
         }
     }
 }

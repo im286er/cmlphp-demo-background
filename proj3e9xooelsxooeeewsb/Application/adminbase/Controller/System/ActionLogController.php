@@ -25,7 +25,12 @@ class ActionLogController extends CommonController
             ->displayWithLayout('System/ActionLog/list', 'regional');
     }
 
-    //ajax请求分页
+
+    /**
+     * ajax请求分页
+     *
+     * @acljump adminbase/System/ActionLog/index
+     */
     public function ajaxPage()
     {
         $actionLogModel = new ActionLogModel();
