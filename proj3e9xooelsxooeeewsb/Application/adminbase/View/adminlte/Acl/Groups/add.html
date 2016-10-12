@@ -1,0 +1,54 @@
+<section class="content">
+    <div class="row">
+        <!-- left column -->
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary"  style="padding:0 10%">
+                <div class="box-header with-border">
+                    <h3 class="box-title">{{$title}}</h3>
+                </div>
+                <!-- /.box-header -->
+
+                <!-- form start -->
+                <form role="form" class="data_forum">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label>用户组名</label>
+                            <input type="text" name="name" placeholder="请输入用户组名"  class="form-control"  />
+                        </div>
+
+                        <div class="form-group">
+                            <label>备注</label>
+                            <textarea class="form-control" name="remark"></textarea>
+                        </div>
+
+                    </div>
+                    <!-- /.box-body -->
+                </form>
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.row -->
+    </div>
+</section>
+
+<script>
+    require(['validate', 'cml'], function() {
+        $(".data_forum").validate({
+            rules:{
+                name:{
+                    required: true
+                }
+            },
+            errorClass: "help-block",
+            errorElement: "span",
+            highlight:function(element, errorClass, validClass) {
+                $(element).parents('.form-group').addClass('has-error');
+            },
+            unhighlight: function(element, errorClass, validClass) {
+                $(element).parents('.form-group').removeClass('has-error');
+                $(element).parents('.form_group').addClass('has-success');
+            }
+        });
+    });
+</script>

@@ -1,0 +1,64 @@
+<section class="content">
+    <div class="row">
+        <!-- left column -->
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary"  style="padding:0 10%">
+                <div class="box-header with-border">
+                    <h3 class="box-title">{{$title}}</h3>
+                </div>
+                <!-- /.box-header -->
+
+                <!-- form start -->
+                <form role="form" class="data_forum">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label><span>*</span>昵&emsp;称</label>
+                            <input type="text" name="nickname" value="{{$user.nickname}}" placeholder="请输入用户昵称"  class="form-control"  />
+                        </div>
+
+                        <div class="form-group">
+                            <label>旧密码</label>
+                            <input type="password" name="oldpwd" class="form-control" placeholder="请输入密码">
+                        </div>
+
+                        <div class="form-group">
+                            <label>新密码</label>
+                            <input type="password" name="pwd" class="form-control" placeholder="请输入新密码">
+                        </div>
+
+                        <div class="form-group">
+                            <label>确认密码</label>
+                            <input type="password" name="repwd" class="form-control" placeholder="请重复新密码">
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </form>
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.row -->
+    </div>
+</section>
+
+<script>
+    require(['validate', 'cml'], function() {
+        $(".data_forum").validate({
+            rules:{
+                nickname:{
+                    minlength:2,
+                    maxlength:20
+                }
+            },
+            errorClass: "help-block",
+            errorElement: "span",
+            highlight:function(element, errorClass, validClass) {
+                $(element).parents('.form-group').addClass('has-error');
+            },
+            unhighlight: function(element, errorClass, validClass) {
+                $(element).parents('.form-group').removeClass('has-error');
+                $(element).parents('.form_group').addClass('has-success');
+            }
+        });
+    });
+</script>

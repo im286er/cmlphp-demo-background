@@ -1,0 +1,90 @@
+{{to content}}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box data_form_box">
+                    <div class="box-header">
+                        <div class="input-group input-group-sm">
+
+                            <form class="search_form">
+                                <input type="text" style="width:35%;" class="form-control" name="username" value="{{$username}}" placeholder="请输入用户名">
+                                <input type="text"  style="width:35%;" class="form-control" name="nickname" value="{{$nickname}}" placeholder="请输入用户昵称">
+
+
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn btn-default btn-search"><i class="fa fa-search"></i></button>
+                                </div>
+
+                                <div class="input-group-btn" style="padding-left:5px;">
+                                    <button type="button" class="btn btn-primary" onclick="cml.form.add(
+                                        '新增用户',
+                                        '{{url "adminbase/Acl/Users/add"}}',
+                                        '{{url 'adminbase/Acl/Users/save'}}'
+                                    );">新增用户</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body table-responsive no-padding data-table">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <th>id</th>
+                                    <th>用户名</th>
+                                    <th>昵称</th>
+                                    <th>用户组</th>
+                                    <th>状态</th>
+                                    <th>导出大数据权限</th>
+                                    <th>最后登录时间</th>
+                                    <th>创建时间</th>
+                                    <th>修改时间</th>
+                                    <th>操作</th>
+                                </tr>
+                                <tr class="template" v-for="item in list">
+                                    <td>{{item.id}}</td>
+                                    <td>{{item.username}}</td>
+                                    <td>{{item.nickname}}</td>
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.status == 1 ? '启用' : '禁用'}}</td>
+                                    <td>{{item.exportaccess == 1 ? '是' : '否'}}</td>
+                                    <td>{{item.lastlogin}}</td>
+                                    <td>{{item.ctime}}</td>
+                                    <td>{{item.stime}}</td>
+                                    <td>
+                                        <button @click.prevent="edit('编辑用户', '{{url "adminbase/Acl/Users/edit"}}{{urldeper}}id=' + item.id, '{{url 'adminbase/Acl/Users/save'}}');" class="btn btn-xs btn-primary">编辑</button>
+                                        <button @click.prevent="del('{{url "adminbase/Acl/Users/del"}}{{urldeper}}id=' + item.id, item.id);"  class="btn btn-xs btn-danger">删除</button>
+                                        <button @click.prevent="disable('{{url "adminbase/Acl/Users/disable"}}{{urldeper}}id=' + item.id + '&status='+item.status);"  class="btn btn-xs btn-warning">{{item.status == 1 ? '禁用' : '启用'}}</button>
+                                        <button @click.prevent="add('授权', '{{url "adminbase/Acl/Acl/user"}}{{urldeper}}id=' + item.id, '{{url 'adminbase/Acl/Acl/save/type/1'}}');" class="btn btn-xs" >授权</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="total_page">共<i class="tot-num template">{{totalCount}}</i>条数据</div>
+                        <div class="show_page"></div>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+
+    </div>
+    <!-- /.col -->
+</div>
+
+<script>
+    function onRequireJsReady() {
+        cml.initPage('{{$totalPage}}',
+                '{{url "adminbase/Acl/Users/ajaxPage"}}{{urldeper}}',
+                "{{url "adminbase/Acl/Users/index"}}{{urldeper}}page=1&",
+                '{{$totalCount}}'
+    );
+    }
+</script>
+{{/to}}
+
+
