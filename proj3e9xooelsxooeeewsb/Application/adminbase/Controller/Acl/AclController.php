@@ -81,7 +81,7 @@ class AclController extends CommonController
         View::getEngine()
             ->assignByRef('item', $dataModel->getByColumn($id))
             ->assignByRef('menus', array_values($menus))
-            ->display('Acl/Acl/'.$type = 1 ? 'user' : 'group');
+            ->display('Acl/Acl/acl');
 
     }
 
