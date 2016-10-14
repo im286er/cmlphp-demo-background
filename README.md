@@ -12,6 +12,8 @@
 
 ##### 初始用户名密码  admin 123456
 
+##### 框架只要php5.4+版本即可运行，`public/index.php` 入口文件中使用了php5.5的语法`::class`用来获取类名。如果php版本< 5.5直接把`xxx::class`改成相应的字符串即可
+
 #### 以下为截图
 ![](http://o7v4k1oiv.bkt.clouddn.com/background-login.jpg)
 ![](http://o7v4k1oiv.bkt.clouddn.com/background-index.jpg)
