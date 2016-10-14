@@ -6,7 +6,7 @@ use Cml\Cml;
 define('CML_PROJECT_PATH', dirname(__DIR__));
 
 //载入composer自动加载文件
-$loader = require '../vendor/autoload.php';
+$loader = require CML_PROJECT_PATH . '/vendor/autoload.php';
 
 //配置目录组成
 Cml::setApplicationDir([
