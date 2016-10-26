@@ -46,12 +46,10 @@ class UsersController extends CommonController
     public function ajaxPage()
     {
         $usersModel = new UsersModel();
-        $page = Input::getInt('page', 1);
         SearchServer::processSearch(array(
             'username' => 'like',
             'nickname' => 'like'
         ), $usersModel, true);
-        $page < 1 && $page = 1;
 
         $list = $usersModel->getUsersList(Config::get('page_num'));
         foreach($list as &$val) {

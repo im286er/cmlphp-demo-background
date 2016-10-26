@@ -42,9 +42,6 @@ class SystemLogController extends CommonController
             'end_time' => '<'
         ), $systemLogModel, false);
 
-        $page = Input::getInt('page', 1);
-        $page < 1 && $page = 1;
-
         $list = $systemLogModel->getListByPaginate(Config::get('page_num'));
         foreach($list as &$val) {
             $val['ctime'] = date('Y-m-d H:i:s', $val['ctime']);
