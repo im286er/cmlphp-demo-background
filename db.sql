@@ -182,4 +182,4 @@ CREATE TABLE `pr_users` (
 -- ----------------------------
 -- Records of pr_users
 -- ----------------------------
-INSERT INTO `pr_users` VALUES ('1', '1', 'admin', '超级管理员', '60b72813b1f4cd74ae1f5eaa4c5bb96c', '1476252909', '0', '1476244882', '1', '0', '');
+INSERT INTO `pr_users` VALUES ('1', '1', 'admin', '超级管理员', '60b72813b1f4cd74ae1f5eaa4c5bb96c', '1476252909', '0', '1476244882', '1', '');

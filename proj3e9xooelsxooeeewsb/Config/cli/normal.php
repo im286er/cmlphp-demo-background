@@ -22,7 +22,7 @@ $config = array(
     // 缓存服务器的配置
     'default_cache' => array(
         'on' => 1, //为1则启用，或者不启用
-        'driver' => 'Redis',
+        'driver' => 'File',
         'prefix' => 'devhadm_',
         'server' => array(
             array(
