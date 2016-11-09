@@ -5,7 +5,7 @@ return array(
         'userauthid' => 'pokmuel',
         'url_default_action' => 'adminbase/System/Index/index',
         'system_name' => '管理后台',
-        'cmlframework_system_command' => array(
+        'cmlframework_system_route' => array(
             'cmlframeworkstaticparse' => '\\Cml\\Tools\\StaticResource::parseResourceFile',
             'cml_calc_veryfy_code' => '\\Cml\\Vendor\\VerifyCode::calocVerify'
         ),
