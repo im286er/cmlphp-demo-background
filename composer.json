@@ -1,11 +1,7 @@
 {
     "require": {
         "php": ">=5.4.0",
-        "linhecheng/cmlphp": "dev-dev",
-        "linhecheng/cmlphp-ext-blade": "^1.0",
-        "linhecheng/cmlphp-ext-phinx": "^0.1.0",
-        "fzaninotto/faker": "^1.6",
-        "filp/whoops": "^2.1"
+        "linhecheng/cmlphp": "dev-dev"
     },
     "autoload": {
         "psr-4": {

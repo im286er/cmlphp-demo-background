@@ -4,129 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "45820720d95a0d917e93fbed48ee3b05",
-    "content-hash": "29c7bd13bb7b25d159f20cd888ea770a",
+    "hash": "d106f840f5290be3a9afdba4343dbbc8",
+    "content-hash": "8e98a4a0a58eae3c81ee9ed22d16876c",
     "packages": [
-        {
-            "name": "filp/whoops",
-            "version": "2.1.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/filp/whoops.git",
-                "reference": "3f5cbd0e6a2fc17bc40b0238025ef1ff4c8c3efa"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/filp/whoops/3f5cbd0e6a2fc17bc40b0238025ef1ff4c8c3efa.zip",
-                "reference": "3f5cbd0e6a2fc17bc40b0238025ef1ff4c8c3efa",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.5.9 || ^7.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "0.9.*",
-                "phpunit/phpunit": "^4.8 || ^5.0",
-                "symfony/var-dumper": "^2.6 || ^3.0"
-            },
-            "suggest": {
-                "symfony/var-dumper": "Pretty print complex values better with var-dumper available",
-                "whoops/soap": "Formats errors as SOAP responses"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Whoops\\": "src/Whoops/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Filipe Dobreira",
-                    "homepage": "https://github.com/filp",
-                    "role": "Developer"
-                }
-            ],
-            "description": "php error handling for cool kids",
-            "homepage": "https://filp.github.io/whoops/",
-            "keywords": [
-                "error",
-                "exception",
-                "handling",
-                "library",
-                "whoops",
-                "zf2"
-            ],
-            "time": "2016-10-11 15:32:23"
-        },
-        {
-            "name": "fzaninotto/faker",
-            "version": "v1.6.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "44f9a286a04b80c76a4e5fb7aad8bb539b920123"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/fzaninotto/Faker/44f9a286a04b80c76a4e5fb7aad8bb539b920123.zip",
-                "reference": "44f9a286a04b80c76a4e5fb7aad8bb539b920123",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.3.3|^7.0"
-            },
-            "require-dev": {
-                "ext-intl": "*",
-                "phpunit/phpunit": "~4.0",
-                "squizlabs/php_codesniffer": "~1.5"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": []
-            },
-            "autoload": {
-                "psr-4": {
-                    "Faker\\": "src/Faker/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "François Zaninotto"
-                }
-            ],
-            "description": "Faker is a PHP library that generates fake data for you.",
-            "keywords": [
-                "data",
-                "faker",
-                "fixtures"
-            ],
-            "time": "2016-04-29 12:21:54"
-        },
         {
             "name": "linhecheng/cmlphp",
             "version": "dev-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/linhecheng/cmlphp.git",
-                "reference": "2680452f8697649f18050b890dd774a56ea39971"
+                "reference": "87d6f37de9a5633cc3e59d23f9cfdfef3a2d09fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/linhecheng/cmlphp/2680452f8697649f18050b890dd774a56ea39971.zip",
-                "reference": "2680452f8697649f18050b890dd774a56ea39971",
+                "url": "https://packagist.phpcomposer.com/files/linhecheng/cmlphp/87d6f37de9a5633cc3e59d23f9cfdfef3a2d09fb.zip",
+                "reference": "87d6f37de9a5633cc3e59d23f9cfdfef3a2d09fb",
                 "shasum": ""
             },
             "require": {
@@ -156,83 +48,7 @@
             "keywords": [
                 "cmlphp"
             ],
-            "time": "2016-11-08 12:40:47"
-        },
-        {
-            "name": "linhecheng/cmlphp-ext-blade",
-            "version": "v1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/linhecheng/cmlphp-ext-blade.git",
-                "reference": "1222e13c326365916dbc4032c076715ed09603a8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/linhecheng/cmlphp-ext-blade/1222e13c326365916dbc4032c076715ed09603a8.zip",
-                "reference": "1222e13c326365916dbc4032c076715ed09603a8",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "CmlExt\\Blade\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "linhecheng",
-                    "email": "linhechengbugh@live.com",
-                    "homepage": "http://51beautylife.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "修改自Laravel的模引擎 - Blade",
-            "time": "2016-09-13 02:44:16"
-        },
-        {
-            "name": "linhecheng/cmlphp-ext-phinx",
-            "version": "v0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/linhecheng/cmlphp-ext-phinx.git",
-                "reference": "99281d70c7d3a346b5fe4b5b7c9945991f9142f8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/linhecheng/cmlphp-ext-phinx/99281d70c7d3a346b5fe4b5b7c9945991f9142f8.zip",
-                "reference": "99281d70c7d3a346b5fe4b5b7c9945991f9142f8",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Phinx\\": "src/Phinx"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "linhecheng",
-                    "email": "linhechengbugh@live.com",
-                    "homepage": "http://51beautylife.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "修改自Phinx的数据库迁移工具",
-            "time": "2016-11-01 11:27:48"
+            "time": "2016-11-15 09:51:48"
         }
     ],
     "packages-dev": [],
