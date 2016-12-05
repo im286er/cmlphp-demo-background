@@ -17,7 +17,7 @@ class AccessModel extends Model
      */
     public function getAccessArrByField($id, $field = 'groupid')
     {
-        is_array($id) || $id = array($id);
+        is_array($id) || $id = [$id];
         return $this->db()->table($this->table)
             ->whereIn($field, $id)
             ->columns('menuid')

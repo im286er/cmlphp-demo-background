@@ -12,11 +12,11 @@ class ActionLogController extends CommonController
     public function index()
     {
         $actionLogModel = new ActionLogModel();
-        SearchServer::processSearch(array(
-                'userid' => '',
-                'start_time' => '>',
-                'end_time' => '<'
-            ), $actionLogModel, true);
+        SearchServer::processSearch([
+            'userid' => '',
+            'start_time' => '>',
+            'end_time' => '<'
+        ], $actionLogModel, true);
 
         $totalCount = $actionLogModel->getTotalNums();
         View::getEngine()
@@ -34,14 +34,14 @@ class ActionLogController extends CommonController
     public function ajaxPage()
     {
         $actionLogModel = new ActionLogModel();
-        SearchServer::processSearch(array(
+        SearchServer::processSearch([
             'userid' => '',
             'start_time' => '>',
             'end_time' => '<'
-            ), $actionLogModel, false);
+        ], $actionLogModel, false);
 
         $list = $actionLogModel->getListByPaginate(Config::get('page_num'));
-        foreach($list as &$val) {
+        foreach ($list as &$val) {
             $val['ctime'] = date('Y-m-d H:i:s', $val['ctime']);
         }
 

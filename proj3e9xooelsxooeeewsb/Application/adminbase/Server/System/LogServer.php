@@ -22,12 +22,11 @@ class LogServer extends Server
     public static function addActionLog($action)
     {
         $user = Acl::getLoginInfo();
-        $actionLog = array(
+        ActionLogModel::getInstance()->set([
             'action' => $action,
             'userid' => $user['id'],
             'username' => $user['username'],
             'ctime' => Cml::$nowTime
-        );
-        ActionLogModel::getInstance()->set($actionLog);
+        ]);
     }
 }

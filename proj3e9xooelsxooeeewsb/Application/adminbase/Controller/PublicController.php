@@ -75,17 +75,17 @@ class PublicController extends Controller
         Acl::setLoginStatus($user['id']);
 
         $loginLogModel = new LoginLogModel();
-        $loginLogModel->set(array(
+        $loginLogModel->set([
             'userid' =>  $user['id'],
             'username' =>  $user['username'],
             'nickname' =>  $user['nickname'],
             'ip' => Request::ip(),
             'ctime' => Cml::$nowTime
-        ));
+        ]);
 
-        $usersModel->updateByColumn($user['id'], array(
+        $usersModel->updateByColumn($user['id'], [
             'lastlogin' => Cml::$nowTime
-        ));
+        ]);
 
         ResponseServer::renderJson(0, '登录成功！');
     }

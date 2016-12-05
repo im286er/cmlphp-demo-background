@@ -55,7 +55,7 @@ class MenusController extends CommonController
      */
     public function save()
     {
-        $data = array();
+        $data = [];
         $id = Input::postInt('id');
         $data['pid'] = Input::postInt('pid', 0);
         $data['title'] = Input::postString('title');
@@ -64,10 +64,10 @@ class MenusController extends CommonController
         $data['sort'] = Input::postInt('sort', 0);
 
         $menuModel = new MenusModel();
-        if(is_null($id)) {//新增
+        if (is_null($id)) {//新增
             $res = $menuModel->set($data);
-        } else  {
-            LogServer::addActionLog("修改了菜单[{$id}]的信息".json_encode($data));
+        } else {
+            LogServer::addActionLog("修改了菜单[{$id}]的信息" . json_encode($data));
             unset($data['pid']);
             $res = $menuModel->updateByColumn($id, $data);
         }
@@ -87,7 +87,7 @@ class MenusController extends CommonController
             $this->renderJson(-1, '该菜单下有子菜单不能删除！');
         } else {
             LogServer::addActionLog("删除了菜单[{$id}]!");
-            $menuModel->delByColumn($id) ?  $this->renderJson(0, '删除成功') : $this->renderJson(-1, '删除失败');
+            $menuModel->delByColumn($id) ? $this->renderJson(0, '删除成功') : $this->renderJson(-1, '删除失败');
         }
     }
 }

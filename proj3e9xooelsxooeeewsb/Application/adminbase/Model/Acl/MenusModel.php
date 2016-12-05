@@ -18,10 +18,11 @@ class MenusModel extends Model
      *
      * @return bool
      */
-    public function hasSonMenus($id){
+    public function hasSonMenus($id)
+    {
         $data = $this->db()->table($this->table)
             ->where('pid', $id)
-            ->columns(array('count(id)'=> 'nums'))
+            ->columns(['count(id)' => 'nums'])
             ->select();
         return $data[0]['nums'] > 0;
     }

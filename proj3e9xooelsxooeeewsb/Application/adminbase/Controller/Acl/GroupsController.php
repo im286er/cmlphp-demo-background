@@ -23,9 +23,9 @@ class GroupsController extends CommonController
     {
         $groupsModel = new GroupsModel();
 
-        SearchServer::processSearch(array(
+        SearchServer::processSearch([
             'name' => 'like'
-        ), $groupsModel, true);
+        ], $groupsModel, true);
 
         $totalCount = $groupsModel->getTotalNums();
         View::getEngine()
@@ -42,18 +42,18 @@ class GroupsController extends CommonController
     public function ajaxPage()
     {
         $groupsModel = new GroupsModel();
-        SearchServer::processSearch(array(
+        SearchServer::processSearch([
             'name' => 'like'
-        ), $groupsModel, false);
+        ], $groupsModel, false);
 
         $list = $groupsModel->getGroupsList(Config::get('page_num'));
-        foreach($list as &$val) {
+        foreach ($list as &$val) {
             $val['lastlogin'] = date('Y-m-d H:i:s', $val['lastlogin']);
             $val['ctime'] = date('Y-m-d H:i:s', $val['ctime']);
             $val['stime'] = date('Y-m-d H:i:s', $val['stime']);
         }
 
-       $this->renderJson(0, '', $list);
+        $this->renderJson(0, '', $list);
     }
 
 
@@ -95,17 +95,17 @@ class GroupsController extends CommonController
      */
     public function save()
     {
-        $data = array();
+        $data = [];
         $id = Input::postInt('id');
 
         $data['name'] = Input::postString('name', '');
         $data['remark'] = Input::postString('remark', '');
         $groupsModel = new GroupsModel();
-        if(is_null($id)) {//新增
+        if (is_null($id)) {//新增
             $res = $groupsModel->set($data);
-        } else  {
+        } else {
             AclServer::currentLoginUserIsHadPermisionToOpGroup($id) || $this->renderJson(-2, '您所有的用户组没有操作该用户[组]的权限!');
-            LogServer::addActionLog("修改了用户组[{$id}]的信息".json_encode($data));
+            LogServer::addActionLog("修改了用户组[{$id}]的信息" . json_encode($data));
             $res = $groupsModel->updateByColumn($id, $data);
         }
         $res ? $this->renderJson(0, '保存成功') : $this->renderJson(-1, '操作失败');
@@ -124,7 +124,7 @@ class GroupsController extends CommonController
         AclServer::currentLoginUserIsHadPermisionToOpGroup($id) || $this->renderJson(-2, '您所有的用户组没有操作该用户[组]的权限!');
 
         $groupsModel = new GroupsModel();
-        if ($id === intval(Config::get('administratorid')))  $this->renderJson(-1, '不能删除超管');
+        if ($id === intval(Config::get('administratorid'))) $this->renderJson(-1, '不能删除超管');
         if ($groupsModel->delByColumn($id)) {
             LogServer::addActionLog("删除了用户组[{$id}]!");
             //删除对应的权限

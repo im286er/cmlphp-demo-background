@@ -16,9 +16,9 @@ class UsersModel extends Model
      */
     public function getUsersList($limit = 20)
     {
-        return $this->db()->table(array($this->table => 'u'))
+        return $this->db()->table([$this->table => 'u'])
             ->columns('u.*', 'g.name')
-            ->join(array('groups' => 'g'), 'u.groupid=g.id')
+            ->join(['groups' => 'g'], 'u.groupid=g.id')
             //->where('u.status', 1)
             ->orderBy('id', 'asc')
             ->paginate($limit);

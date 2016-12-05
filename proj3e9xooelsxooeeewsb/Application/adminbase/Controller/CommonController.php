@@ -44,11 +44,11 @@ class CommonController extends Controller
         $_POST = $tmp;
 
         $fields = Config::get('log_unset_field');
-        foreach($fields as $val) {
+        foreach ($fields as $val) {
             isset($post[$val]) && $post[$val] = '';
         }
 
-        SystemLogModel::getInstance()->set(array(
+        SystemLogModel::getInstance()->set([
             'action' => $currentMenu ? $currentMenu['title'] : $url,
             'url' => $url,
             'userid' => $user['id'],
@@ -57,23 +57,23 @@ class CommonController extends Controller
             'post' => var_export($post, true),
             'ip' => Request::ip(),
             'ctime' => Cml::$nowTime
-        ));
+        ]);
 
         $menus = Acl::getMenus();
         $bread = '';
-        foreach($menus as $key => &$val) {
-            if ($val['url'] == $url ) {
+        foreach ($menus as $key => &$val) {
+            if ($val['url'] == $url) {
                 $val['current'] = true;
                 $bread[$url] = $val['title'];
             }
 
-            if(empty($val['sonNode'])) {
+            if (empty($val['sonNode'])) {
                 unset($menus[$key]);
             } else {
-                foreach($val['sonNode'] as &$v) {
+                foreach ($val['sonNode'] as &$v) {
                     if ($v['url'] == $url) {
                         $bread[$val['url']] = $val['title'];
-                        $bread[$v['url']] =$v['title'];
+                        $bread[$v['url']] = $v['title'];
                         $v['current'] = true;
                         $val['current'] = true;
                     }
@@ -108,7 +108,7 @@ class CommonController extends Controller
      * @param string $msg
      * @param array $data
      */
-    protected function renderJson($code = -1, $msg = '未登录', $data = array())
+    protected function renderJson($code = -1, $msg = '未登录', $data = [])
     {
         ResponseServer::renderJson($code, $msg, $data);
     }

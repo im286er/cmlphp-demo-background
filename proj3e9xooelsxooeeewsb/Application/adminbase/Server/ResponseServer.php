@@ -14,7 +14,7 @@ class ResponseServer extends Server
      */
     public static function showAlertAndGoBack($tip, $url = false)
     {
-        $url = $url ? "window.location.href='".Response::url($url ,false)."';" : 'window.history.back(-1);';
+        $url = $url ? "window.location.href='" . Response::url($url, false) . "';" : 'window.history.back(-1);';
         $str = <<<str
 				<script type="text/javascript">
 					alert('{$tip}');
@@ -31,7 +31,7 @@ str;
      * @param string $msg
      * @param array $data
      */
-    public static function renderJson($code, $msg = '未登录', $data = array())
+    public static function renderJson($code, $msg = '未登录', $data = [])
     {
         View::getEngine('Json')
             ->assign('code', $code)

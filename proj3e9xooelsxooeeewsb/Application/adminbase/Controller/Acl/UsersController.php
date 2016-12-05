@@ -26,10 +26,10 @@ class UsersController extends CommonController
     public function index()
     {
         $usersModel = new UsersModel();
-        SearchServer::processSearch(array(
+        SearchServer::processSearch([
             'username' => 'like',
             'nickname' => 'like'
-        ), $usersModel, true);
+        ], $usersModel, true);
 
         $totalCount = $usersModel->getTotalNums();
         View::getEngine()
@@ -46,13 +46,13 @@ class UsersController extends CommonController
     public function ajaxPage()
     {
         $usersModel = new UsersModel();
-        SearchServer::processSearch(array(
+        SearchServer::processSearch([
             'username' => 'like',
             'nickname' => 'like'
-        ), $usersModel, true);
+        ], $usersModel, true);
 
         $list = $usersModel->getUsersList(Config::get('page_num'));
-        foreach($list as &$val) {
+        foreach ($list as &$val) {
             $val['lastlogin'] = date('Y-m-d H:i:s', $val['lastlogin']);
             $val['ctime'] = date('Y-m-d H:i:s', $val['ctime']);
             $val['stime'] = date('Y-m-d H:i:s', $val['stime']);
@@ -104,17 +104,17 @@ class UsersController extends CommonController
      */
     public function save()
     {
-        $data = array();
+        $data = [];
         $id = Input::postInt('id');
 
-        $id > 0 && ( AclServer::currentLoginUserIsHadPermisionToOpUser($id) || $this->renderJson(-2, '您所有的用户组没有操作该用户[组]的权限!'));
+        $id > 0 && (AclServer::currentLoginUserIsHadPermisionToOpUser($id) || $this->renderJson(-2, '您所有的用户组没有操作该用户[组]的权限!'));
 
         $username = Input::postString('username');
         $data['nickname'] = Input::postString('nickname');
         $data['password'] = Input::postString('password');
         $data['checkpassword'] = Input::postString('checkpassword');
         $data['groupid'] = Input::postInt('groupid');
-       //$data['exportaccess'] = Input::postInt('groupid') == 1 ? 1 : Input::postInt('exportaccess');
+        //$data['exportaccess'] = Input::postInt('groupid') == 1 ? 1 : Input::postInt('exportaccess');
         $data['remark'] = Input::postString('remark', '');
 
         $newGroupInfo = GroupsModel::getInstance()->getByColumn($data['groupid'], 'id');
@@ -126,7 +126,7 @@ class UsersController extends CommonController
             $this->renderJson(-1, '昵称长度必须大于3小于20！');
         }
 
-        if ($id < 1 || isset($data['password'])){
+        if ($id < 1 || isset($data['password'])) {
             if (mb_strlen($data['password']) < 6) {
                 $this->renderJson(-1, '密码长度必须大于6小于20！');
             }
@@ -140,7 +140,7 @@ class UsersController extends CommonController
         if (is_null($data['password']) || empty($data['password'])) {
             unset($data['password']);
         } else {
-            $data['password'] = md5(md5($data['password']).Config::get('password_salt'));
+            $data['password'] = md5(md5($data['password']) . Config::get('password_salt'));
         }
 
         $usersModel = new UsersModel();
@@ -153,14 +153,14 @@ class UsersController extends CommonController
             $data['username'] = $username;
             $data['ctime'] = Cml::$nowTime;
             $res = $usersModel->set($data);
-        } else  {
+        } else {
             if ($equalName && $equalName['id'] != $id) {
                 $this->renderJson(-1, '用户名已存在');
             }
             $data['username'] = $username;
             $data['stime'] = Cml::$nowTime;
 
-            LogServer::addActionLog("修改了用户[{$id}]的信息".json_encode($data));
+            LogServer::addActionLog("修改了用户[{$id}]的信息" . json_encode($data));
             $res = $usersModel->updateByColumn($id, $data);
         }
         $res ? $this->renderJson(0, '保存成功') : $this->renderJson(-1, '操作失败');
@@ -199,7 +199,7 @@ class UsersController extends CommonController
      */
     public function disable()
     {
-        $data = array();
+        $data = [];
         $id = Input::getInt('id');
 
         AclServer::currentLoginUserIsHadPermisionToOpUser($id) || $this->renderJson(-2, '您所有的用户组没有操作该用户[组]的权限!');
@@ -207,7 +207,7 @@ class UsersController extends CommonController
         $status = Input::getInt('status');
 
         $data['status'] = $status ? 0 : 1;
-            $id < 1 && $this->renderJson(-1, '操作失败');
+        $id < 1 && $this->renderJson(-1, '操作失败');
         $users = new UsersModel();
         if ($id === intval(Config::get('administratorid'))) {
             $this->renderJson(-1, '不能操作超管');
@@ -247,30 +247,30 @@ class UsersController extends CommonController
         $userModel = new UsersModel();
         $user = $userModel->getByColumn($user['id']);
 
-        $data = array();
+        $data = [];
         $data['nickname'] = Input::postString('nickname');
         $data['stime'] = Cml::$nowTime;
 
         if (isset($_POST['oldpwd']) && Validate::isLength($_POST['oldpwd'], 6, 20)) {
             if ($user['password'] != md5(md5($_POST['oldpwd']) . Config::get('password_salt'))) {
-                exit(json_encode(array(
+                exit(json_encode([
                     'code' => -2,
                     'msg' => '旧密码错误'
-                )));
+                ]));
             }
 
             if ($_POST['pwd'] != $_POST['repwd']) {
-                exit(json_encode(array(
+                exit(json_encode([
                     'code' => -2,
                     'msg' => '两次输入密码不一致！'
-                )));
+                ]));
             }
 
             if (!Validate::isLength($_POST['pwd'], 6, 20)) {
-                exit(json_encode(array(
+                exit(json_encode([
                     'code' => -2,
                     'msg' => '新密码长度必须为6-20个字符！'
-                )));
+                ]));
             }
             $data['password'] = md5(md5($_POST['pwd']) . Config::get('password_salt'));
             Acl::logout();

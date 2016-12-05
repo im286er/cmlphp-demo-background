@@ -13,11 +13,11 @@ class LoginLogController extends CommonController
     public function index()
     {
         $loginLogModel = new LoginLogModel();
-        SearchServer::processSearch(array(
+        SearchServer::processSearch([
             'userid' => '',
             'start_time' => '>',
             'end_time' => '<'
-        ), $loginLogModel, true);
+        ], $loginLogModel, true);
 
         $totalCount = $loginLogModel->getTotalNums();
         View::getEngine()
@@ -34,14 +34,14 @@ class LoginLogController extends CommonController
     public function ajaxPage()
     {
         $loginLogModel = new LoginLogModel();
-        SearchServer::processSearch(array(
+        SearchServer::processSearch([
             'userid' => '',
             'start_time' => '>',
             'end_time' => '<'
-        ), $loginLogModel, false);
+        ], $loginLogModel, false);
 
         $list = $loginLogModel->getListByPaginate(Config::get('page_num'));
-        foreach($list as &$val) {
+        foreach ($list as &$val) {
             $val['ctime'] = date('Y-m-d H:i:s', $val['ctime']);
         }
 

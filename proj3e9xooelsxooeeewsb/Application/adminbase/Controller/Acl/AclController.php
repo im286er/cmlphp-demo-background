@@ -61,13 +61,13 @@ class AclController extends CommonController
         //获取已有权限
         $accessModel = new AccessModel();
         $hadAccessMenusId = $accessModel->getAccessArrByField($id, $type === 1 ? 'userid' : 'groupid');
-        $hadAccessMenus = array();
+        $hadAccessMenus = [];
         foreach ($hadAccessMenusId as $val) {
             $hadAccessMenus[] = $val['menuid'];
         }
 
         //授权的时候该管理员只能看到自己有的权限列表
-        $currentLoginUsersHadAccessList = Acl::isSuperUser() ? array() : $this->getCurrentLoginUsersAcl();
+        $currentLoginUsersHadAccessList = Acl::isSuperUser() ? [] : $this->getCurrentLoginUsersAcl();
 
         foreach ($menus as $key => &$val) {
             if (false === Acl::isSuperUser() && !in_array($val['id'], $currentLoginUsersHadAccessList)) {
@@ -103,10 +103,10 @@ class AclController extends CommonController
             AclServer::currentLoginUserIsHadPermisionToOpGroup($id);
         $isHadPermission || $this->renderJson(-2, '您所有的用户组没有操作该用户[组]的权限!');
 
-        if (!in_array($type, array(1, 2)) || $id < 1) {
+        if (!in_array($type, [1, 2]) || $id < 1) {
             $this->renderJson(-2, '没修改!');
         }
-        $field = $type === 1 ? 'userid' :'groupid';
+        $field = $type === 1 ? 'userid' : 'groupid';
 
         $aclModel = new AccessModel();
         $aclModel->delByColumn($id, $field);
@@ -114,18 +114,17 @@ class AclController extends CommonController
         LogServer::addActionLog("修改了[{$field}:{$id}]的权限信息!");
 
         //授权的时候该管理员只能授权自己有的权限列表
-        $currentLoginUsersHadAccessList = Acl::isSuperUser() ? array() : $this->getCurrentLoginUsersAcl();
+        $currentLoginUsersHadAccessList = Acl::isSuperUser() ? [] : $this->getCurrentLoginUsersAcl();
 
         foreach ($menuIds as $i) {
             if (false === Acl::isSuperUser() && !in_array($i, $currentLoginUsersHadAccessList)) {
                 continue;
             }
 
-            $data = array(
+            $aclModel->set([
                 $field => $id,
-                'menuid' =>$i
-            );
-            $aclModel->set($data);
+                'menuid' => $i
+            ]);
         }
         $this->renderJson(0, '修改成功');
     }
@@ -141,8 +140,8 @@ class AclController extends CommonController
         $accessModel = new AccessModel();
         $hadAccessMenusId = $accessModel->getAccessArrByField($user['id'], 'userid');
         $hadAccessMenusId += $accessModel->getAccessArrByField($user['groupid'], 'groupid');
-        $return = array();
-        foreach($hadAccessMenusId as $val) {
+        $return = [];
+        foreach ($hadAccessMenusId as $val) {
             $return[] = $val['menuid'];
         }
         return array_unique($return);

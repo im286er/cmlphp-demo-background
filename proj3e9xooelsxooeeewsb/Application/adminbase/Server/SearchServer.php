@@ -16,7 +16,7 @@ class SearchServer extends Server
     /*
      * var
      * */
-    public static  $processTime = null;
+    public static $processTime = null;
 
     /**
      * 处理搜索
@@ -27,25 +27,24 @@ class SearchServer extends Server
      *
      * @return void
      */
-    public static function processSearch($fields = array(
+    public static function processSearch($fields = [
         'userid' => '',
         'start_time' => '>',
         'end_time' => '<'
-    ), &$model, $toTpl = false)
-    {
+        ], &$model, $toTpl = false
+    ){
         if (is_null(self::$processTime)) {
-            self::$processTime = function ($time)
-            {
+            self::$processTime = function ($time) {
                 return $time;
             };
         }
 
-        foreach($fields as $field => $conditType) {
-            if(!isset($_GET[$field])) {//用户没有搜索的时候也传一个空植到模板，避免notice
+        foreach ($fields as $field => $conditType) {
+            if (!isset($_GET[$field])) {//用户没有搜索的时候也传一个空植到模板，避免notice
                 View::getEngine()->assign($field, '');
                 continue;
             }
-            if(is_int($_GET[$field])) {
+            if (is_int($_GET[$field])) {
                 $val = Input::getInt($field);
             } else if (is_array($_GET[$field])) {
                 $val = $_GET[$field];
@@ -68,7 +67,7 @@ class SearchServer extends Server
                 if ($isTimeSearch) {
                     View::getEngine()->assign($timeFieldToTpl, $val ? date('Y/m/d H:i:s', $val) : '');
                 } else {
-                    if(!isset($val)) $val = '';
+                    if (!isset($val)) $val = '';
                     View::getEngine()->assign($field, $val);
                 }
             }
@@ -86,7 +85,7 @@ class SearchServer extends Server
                     $model->db()->whereGte($isTimeSearch ? self::$timeField : $field, $isTimeSearch ? $func($val) : $val);
                     break;
                 case '<' :
-                    $model->db()->whereLte($isTimeSearch ? self::$timeField : $field, $isTimeSearch ? $func($val) + (3600*24-1) : $val);
+                    $model->db()->whereLte($isTimeSearch ? self::$timeField : $field, $isTimeSearch ? $func($val) + (3600 * 24 - 1) : $val);
                     break;
                 case 'in' :
                     $model->db()->whereIn($field, $val);

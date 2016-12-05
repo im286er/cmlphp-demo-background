@@ -2,7 +2,6 @@
 namespace adminbase\Controller\System;
 
 use Cml\Config;
-use Cml\Http\Input;
 use Cml\View;
 use adminbase\Controller\CommonController;
 use adminbase\Model\System\SystemLogModel;
@@ -13,12 +12,12 @@ class SystemLogController extends CommonController
     public function index()
     {
         $systemLogModel = new SystemLogModel();
-        SearchServer::processSearch(array(
+        SearchServer::processSearch([
             'userid' => '',
             'url' => 'like',
             'start_time' => '>',
             'end_time' => '<'
-        ), $systemLogModel, true);
+        ], $systemLogModel, true);
 
         $totalCount = $systemLogModel->getTotalNums();
         View::getEngine()
@@ -35,15 +34,15 @@ class SystemLogController extends CommonController
     public function ajaxPage()
     {
         $systemLogModel = new SystemLogModel();
-        SearchServer::processSearch(array(
+        SearchServer::processSearch([
             'userid' => '',
             'url' => 'like',
             'start_time' => '>',
             'end_time' => '<'
-        ), $systemLogModel, false);
+        ], $systemLogModel, false);
 
         $list = $systemLogModel->getListByPaginate(Config::get('page_num'));
-        foreach($list as &$val) {
+        foreach ($list as &$val) {
             $val['ctime'] = date('Y-m-d H:i:s', $val['ctime']);
         }
         $this->renderJson(0, '', $list);
