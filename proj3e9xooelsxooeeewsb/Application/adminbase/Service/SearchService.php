@@ -1,7 +1,7 @@
-<?php namespace adminbase\Server;
+<?php namespace adminbase\Service;
 
 use Cml\Model;
-use Cml\Server;
+use Cml\Service;
 use Cml\Http\Input;
 use Cml\View;
 
@@ -9,7 +9,7 @@ use Cml\View;
  * 处理搜索相关逻辑
  *
  */
-class SearchServer extends Server
+class SearchService extends Service
 {
     public static $timeField = 'ctime';
 

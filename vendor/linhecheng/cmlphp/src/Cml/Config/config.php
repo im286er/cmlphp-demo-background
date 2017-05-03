@@ -37,6 +37,7 @@ return [
         //是否记录执行慢的sql语句。只针对mysql有效。这个不能长期开，只能要分析sql性能的时候比如只开个5会钟有一定的log后就应该关掉。默认为false。
         //为整形的时候则为执行时间大于这个时间的sql都记录到log下 比如配置为1则为执行超过1s的sql都记录到 notice.log里
         'log_slow_sql' => false,
+        //'sql_mode' => '',//是否要设置运行时sql_model mysql有效默认不开启放服务器配置
     ],
 
     /**
@@ -128,7 +129,7 @@ return [
     'url_html_suffix' => '.html',  // URL伪静态后缀设置
     'url_default_action' => 'web/Default/index', //默认操作
     'var_pathinfo' => 'r',  // PATHINFO 兼容模式获取变量例如 ?r=/module/action/id/1中的s ,后面的分隔符/取决于url_pathinfo_depr
-    //'static__path' => 'http://static.cml.com/', //模板替换的{{public}}静态地址(访问静态资源用)  默认为 /public 目录
+    //'static__path' => 'http://static.cml.com/', //模板替换的{{public}}静态地址(访问静态资源用)  默认为 入口文件所在目录
 
     /*安全过滤*/
     'auth_key'=>'a5et3e41d', //Encry加密key

@@ -161,12 +161,21 @@ class Route implements RouteInterface
     ];
 
     /**
+     * 成功匹配到的路由
+     *
+     * @var string
+     */
+    private static $matchRoute = 'url_to_action';
+
+    /**
      * 解析url
      *
      * @return void
      */
     public function parseUrl()
     {
+        \Cml\Route::parsePathInfo();
+
         $path = '/';
 
         //定义URL常量
@@ -176,8 +185,6 @@ class Route implements RouteInterface
         }
         //定义项目根目录地址
         self::$urlParams['root'] = $subDir . '/';
-
-        \Cml\Route::parsePathInfo();
 
         $pathInfo = \Cml\Route::getPathInfo();
 
@@ -311,8 +318,7 @@ class Route implements RouteInterface
             });
 
             if (is_callable($route[$isSuccess[0]])) {
-                call_user_func($route[$isSuccess[0]]);
-                Cml::cmlStop();
+                \Cml\Route::executeCallableRoute($route[$isSuccess[0]], substr($isSuccess[0], 1));
             }
 
             is_array($route[$isSuccess[0]]) || $route[$isSuccess[0]] = trim(str_replace('\\', '/', $route[$isSuccess[0]]), '/');
@@ -339,6 +345,7 @@ class Route implements RouteInterface
                 $route[$isSuccess[0]] = implode('/', $actions);
             }
 
+            self::$matchRoute = substr($isSuccess[0], 1);
             $returnArr['route'] = $route[$isSuccess[0]];
         }
         return $returnArr;
@@ -357,7 +364,7 @@ class Route implements RouteInterface
         $actionController = Cml::getApplicationDir('apps_path') . '/' . $className . '.php';
 
         if (is_file($actionController)) {
-            return ['class' => str_replace('/', '\\', $className), 'action' => self::getActionName()];
+            return ['class' => str_replace('/', '\\', $className), 'action' => self::getActionName(), 'route' => self::$matchRoute];
         } else {
             return false;
         }
@@ -371,6 +378,9 @@ class Route implements RouteInterface
      */
     private function findAction(&$pathInfo, &$path)
     {
+        if ($pathInfo[0] == '/' && !isset($pathInfo[1])) {
+            $pathInfo = explode('/', trim(Config::get('url_default_action'), '/'));
+        }
         $controllerPath = $controllerName = '';
 
         $routeAppHierarchy = Config::get('route_app_hierarchy', 1);

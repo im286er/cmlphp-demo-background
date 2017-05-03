@@ -35,54 +35,50 @@ class Route
         $urlModel = Config::get('url_model');
 
         $pathInfo = self::$pathInfo;
-
         if (empty($pathInfo)) {
             $isCli = Request::isCli(); //是否为命令行访问
             if ($isCli) {
                 isset($_SERVER['argv'][1]) && $pathInfo = explode('/', $_SERVER['argv'][1]);
             } else {
+                //修正可能由于nginx配置不当导致的子目录获取有误
+                if (false !== ($fixScriptName = stristr($_SERVER['SCRIPT_NAME'], '.php', true))) {
+                    $_SERVER['SCRIPT_NAME'] = $fixScriptName . '.php';
+                }
+
+                $urlPathInfoDeper = Config::get('url_pathinfo_depr');
                 if ($urlModel === 1 || $urlModel === 2) { //pathInfo模式(含显示、隐藏index.php两种)SCRIPT_NAME
                     if (isset($_GET[Config::get('var_pathinfo')])) {
-                        $param = $_GET[Config::get('var_pathinfo')];
+                        $param = str_replace(Config::get('url_html_suffix'), '', $_GET[Config::get('var_pathinfo')]);
                     } else {
-                        $param = preg_replace('/(.*)\/(.*)\.php(.*)/i', '\\1\\3', $_SERVER['REQUEST_URI']);
-                        $scriptName = preg_replace('/(.*)\/(.*)\.php(.*)/i', '\\1', $_SERVER['SCRIPT_NAME']);
-
-                        if (!empty($scriptName)) {
-                            $param = substr($param, strpos($param, $scriptName) + strlen($scriptName));
-                        }
-                    }
-                    $param = ltrim($param, '/');
-
-                    if (!empty($param)) { //无参数时直接跳过取默认操作
-                        //获取参数
-                        $pathInfo = explode(Config::get('url_pathinfo_depr'), trim(preg_replace(
+                        $param = preg_replace('/(.*)\/(.+)\.php(.*)/i', '\\1\\3', preg_replace(
                             [
                                 '/\\' . Config::get('url_html_suffix') . '/',
                                 '/\&.*/', '/\?.*/'
                             ],
                             '',
-                            $param
-                        ), Config::get('url_pathinfo_depr')));
+                            $_SERVER['REQUEST_URI']
+                        ));//这边替换的结果是带index.php的情况。不带index.php在以下处理
+                        $scriptName = dirname($_SERVER['SCRIPT_NAME']);
+                        if ($scriptName && $scriptName != '/') {//假如项目在子目录这边去除子目录含模式1和模式2两种情况(伪静态到子目录)
+                            $param = substr($param, strpos($param, $scriptName) + strlen($scriptName));//之所以要strpos是因为子目录或请求string里可能会有多个/而SCRIPT_NAME里只会有1个
+                        }
                     }
+                    $param = trim($param, '/' . $urlPathInfoDeper);
                 } elseif ($urlModel === 3 && isset($_GET[Config::get('var_pathinfo')])) {//兼容模式
                     $urlString = $_GET[Config::get('var_pathinfo')];
                     unset($_GET[Config::get('var_pathinfo')]);
-                    $pathInfo = explode(Config::get('url_pathinfo_depr'), trim(str_replace(
+                    $param = trim(str_replace(
                         Config::get('url_html_suffix'),
                         '',
                         ltrim($urlString, '/')
-                    ), Config::get('url_pathinfo_depr')));
+                    ), $urlPathInfoDeper);
                 }
             }
+            $isCli || $pathInfo = explode($urlPathInfoDeper, $param);
         }
 
-        isset($pathInfo[0]) && empty($pathInfo[0]) && $pathInfo = [];
+        isset($pathInfo[0]) && empty($pathInfo[0]) && $pathInfo = ['/'];
 
-        //参数不完整获取默认配置
-        if (empty($pathInfo)) {
-            $pathInfo = explode('/', trim(Config::get('url_default_action'), '/'));
-        }
         self::$pathInfo = $pathInfo;
     }
 
@@ -254,5 +250,18 @@ class Route
 
         $loaded[$app] = 1;
         Cml::requireFile($appRoute);
+    }
+
+    /**
+     * 执行闭包路由
+     *
+     * @param callable $call 闭包
+     * @param string $route 路由string
+     */
+    public static function executeCallableRoute(callable $call, $route = '')
+    {
+        call_user_func($call);
+        Cml::$debug && Debug::addTipInfo(Lang::get('_CML_EXECUTION_ROUTE_IS_', "callable route:{{$route}}", Config::get('url_model')));
+        Cml::cmlStop();
     }
 }

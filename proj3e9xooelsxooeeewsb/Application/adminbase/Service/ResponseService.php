@@ -1,10 +1,10 @@
-<?php namespace adminbase\Server;
+<?php namespace adminbase\Service;
 
 use Cml\Http\Response;
-use Cml\Server;
+use Cml\Service;
 use Cml\View;
 
-class ResponseServer extends Server
+class ResponseService extends Service
 {
     /**
      * 显示js Alert 并跳转到上一步|指定地址

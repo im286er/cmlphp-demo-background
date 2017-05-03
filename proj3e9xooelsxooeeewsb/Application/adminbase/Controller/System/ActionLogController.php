@@ -5,14 +5,14 @@ use Cml\Config;
 use Cml\View;
 use adminbase\Controller\CommonController;
 use adminbase\Model\System\ActionLogModel;
-use adminbase\Server\SearchServer;
+use adminbase\Service\SearchService;
 
 class ActionLogController extends CommonController
 {
     public function index()
     {
         $actionLogModel = new ActionLogModel();
-        SearchServer::processSearch([
+        SearchService::processSearch([
             'userid' => '',
             'start_time' => '>',
             'end_time' => '<'
@@ -34,7 +34,7 @@ class ActionLogController extends CommonController
     public function ajaxPage()
     {
         $actionLogModel = new ActionLogModel();
-        SearchServer::processSearch([
+        SearchService::processSearch([
             'userid' => '',
             'start_time' => '>',
             'end_time' => '<'

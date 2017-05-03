@@ -7,8 +7,8 @@
 namespace adminbase\Controller\Acl;
 
 use adminbase\Model\Acl\AccessModel;
-use adminbase\Server\AclServer;
-use adminbase\Server\System\LogServer;
+use adminbase\Service\AclService;
+use adminbase\Service\System\LogService;
 use Cml\Vendor\Acl;
 use Cml\Cml;
 use Cml\Config;
@@ -18,7 +18,7 @@ use adminbase\Controller\CommonController;
 use adminbase\Model\Acl\GroupsModel;
 use adminbase\Model\Acl\UsersModel;
 use Cml\Vendor\Validate;
-use adminbase\Server\SearchServer;
+use adminbase\Service\SearchService;
 
 class UsersController extends CommonController
 {
@@ -26,7 +26,7 @@ class UsersController extends CommonController
     public function index()
     {
         $usersModel = new UsersModel();
-        SearchServer::processSearch([
+        SearchService::processSearch([
             'username' => 'like',
             'nickname' => 'like'
         ], $usersModel, true);
@@ -46,7 +46,7 @@ class UsersController extends CommonController
     public function ajaxPage()
     {
         $usersModel = new UsersModel();
-        SearchServer::processSearch([
+        SearchService::processSearch([
             'username' => 'like',
             'nickname' => 'like'
         ], $usersModel, true);
@@ -84,7 +84,7 @@ class UsersController extends CommonController
     {
         $id = Input::getInt('id');
 
-        AclServer::currentLoginUserIsHadPermisionToOpUser($id) || exit('您所有的用户组没有操作该用户[组]的权限!');
+        AclService::currentLoginUserIsHadPermisionToOpUser($id) || exit('您所有的用户组没有操作该用户[组]的权限!');
 
         $usersModel = new UsersModel();
         $groupsModel = new GroupsModel();
@@ -107,7 +107,7 @@ class UsersController extends CommonController
         $data = [];
         $id = Input::postInt('id');
 
-        $id > 0 && (AclServer::currentLoginUserIsHadPermisionToOpUser($id) || $this->renderJson(-2, '您所有的用户组没有操作该用户[组]的权限!'));
+        $id > 0 && (AclService::currentLoginUserIsHadPermisionToOpUser($id) || $this->renderJson(-2, '您所有的用户组没有操作该用户[组]的权限!'));
 
         $username = Input::postString('username');
         $data['nickname'] = Input::postString('nickname');
@@ -118,7 +118,7 @@ class UsersController extends CommonController
         $data['remark'] = Input::postString('remark', '');
 
         $newGroupInfo = GroupsModel::getInstance()->getByColumn($data['groupid'], 'id');
-        if (!AclServer::currentLoginUserIsHadPermisionToOpGroup($data['groupid'])) {
+        if (!AclService::currentLoginUserIsHadPermisionToOpGroup($data['groupid'])) {
             $this->renderJson(-2, "您所有的用户组没有权限将该用户的用户组设为【{$newGroupInfo['name']}】!");
         }
 
@@ -160,7 +160,7 @@ class UsersController extends CommonController
             $data['username'] = $username;
             $data['stime'] = Cml::$nowTime;
 
-            LogServer::addActionLog("修改了用户[{$id}]的信息" . json_encode($data));
+            LogService::addActionLog("修改了用户[{$id}]的信息" . json_encode($data));
             $res = $usersModel->updateByColumn($id, $data);
         }
         $res ? $this->renderJson(0, '保存成功') : $this->renderJson(-1, '操作失败');
@@ -176,14 +176,14 @@ class UsersController extends CommonController
         $id < 1 && $this->renderJson(-1, '删除失败');
         $users = new UsersModel();
 
-        AclServer::currentLoginUserIsHadPermisionToOpUser($id) || $this->renderJson(-2, '您所有的用户组没有操作该用户[组]的权限!');
+        AclService::currentLoginUserIsHadPermisionToOpUser($id) || $this->renderJson(-2, '您所有的用户组没有操作该用户[组]的权限!');
 
         if ($id === intval(Config::get('administratorid'))) {
             $this->renderJson(-1, '不能删除超管');
         }
 
         if ($users->delByColumn($id)) {
-            LogServer::addActionLog("删除了用户[{$id}]");
+            LogService::addActionLog("删除了用户[{$id}]");
             //删除对应的权限
             $accessModel = new AccessModel();
             $accessModel->delByColumn($id, 'userid');
@@ -202,7 +202,7 @@ class UsersController extends CommonController
         $data = [];
         $id = Input::getInt('id');
 
-        AclServer::currentLoginUserIsHadPermisionToOpUser($id) || $this->renderJson(-2, '您所有的用户组没有操作该用户[组]的权限!');
+        AclService::currentLoginUserIsHadPermisionToOpUser($id) || $this->renderJson(-2, '您所有的用户组没有操作该用户[组]的权限!');
 
         $status = Input::getInt('status');
 
@@ -214,7 +214,7 @@ class UsersController extends CommonController
         }
 
         if ($res = $users->updateByColumn($id, $data)) {
-            LogServer::addActionLog("禁用了用户[{$id}]");
+            LogService::addActionLog("禁用了用户[{$id}]");
             $this->renderJson(0, '操作成功');
         } else {
             $this->renderJson(-1, '操作失败');

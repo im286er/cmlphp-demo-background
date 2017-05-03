@@ -1,7 +1,7 @@
 <?php
 namespace adminbase\Controller;
 
-use adminbase\Server\ResponseServer;
+use adminbase\Service\ResponseService;
 use Cml\Config;
 use Cml\Tools\StaticResource;
 use Cml\Cml;
@@ -23,7 +23,7 @@ class PublicController extends Controller
     {
         $user = Acl::getLoginInfo();
 
-        $user && ResponseServer::jsJump('adminbase/System/Index/index');
+        $user && ResponseService::jsJump('adminbase/System/Index/index');
 
         View::getEngine()
             ->display('Public/login');
@@ -52,12 +52,12 @@ class PublicController extends Controller
         ]);
 
         if (!$validate->validate()) {
-            ResponseServer::renderJson(-1, $validate->getErrors(2, '|'));
+            ResponseService::renderJson(-1, $validate->getErrors(2, '|'));
         }
 
         $code = Input::postString('code');
         if (!VerifyCode::checkCode($code)) {
-            ResponseServer::renderJson(-1, '验证码错误！');
+            ResponseService::renderJson(-1, '验证码错误！');
         }
 
         $usersModel = new UsersModel();
@@ -65,11 +65,11 @@ class PublicController extends Controller
         $user = $usersModel->getByColumn($username, 'username');
 
         if ($user['status'] == '0') {
-            ResponseServer::renderJson(-3, '用户已被禁用');
+            ResponseService::renderJson(-3, '用户已被禁用');
         }
 
         if (!$user || md5(md5($password) . Config::get('password_salt')) != $user['password']) {
-            ResponseServer::renderJson(-2, '用户名或密码错误');
+            ResponseService::renderJson(-2, '用户名或密码错误');
         }
 
         Acl::setLoginStatus($user['id']);
@@ -87,7 +87,7 @@ class PublicController extends Controller
             'lastlogin' => Cml::$nowTime
         ]);
 
-        ResponseServer::renderJson(0, '登录成功！');
+        ResponseService::renderJson(0, '登录成功！');
     }
 
 

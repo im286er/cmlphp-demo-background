@@ -6,8 +6,8 @@
 namespace adminbase\Controller\Acl;
 
 use adminbase\Model\Acl\AccessModel;
-use adminbase\Server\AclServer;
-use adminbase\Server\System\LogServer;
+use adminbase\Service\AclService;
+use adminbase\Service\System\LogService;
 use Cml\Http\Input;
 use Cml\Vendor\Acl;
 use Cml\View;
@@ -49,9 +49,9 @@ class AclController extends CommonController
         $dataModel = $type === 1 ? new UsersModel() : new GroupsModel();
 
         $isHadPermission = $type == 1 ?
-            AclServer::currentLoginUserIsHadPermisionToOpUser($id)
+            AclService::currentLoginUserIsHadPermisionToOpUser($id)
             :
-            AclServer::currentLoginUserIsHadPermisionToOpGroup($id);
+            AclService::currentLoginUserIsHadPermisionToOpGroup($id);
         $isHadPermission || exit('您所有的用户组没有操作该用户[组]的权限!');
 
         $menusModel = new MenusModel();
@@ -98,9 +98,9 @@ class AclController extends CommonController
         $type = Input::getInt('type', 0);
 
         $isHadPermission = $type == 1 ?
-            AclServer::currentLoginUserIsHadPermisionToOpUser($id)
+            AclService::currentLoginUserIsHadPermisionToOpUser($id)
             :
-            AclServer::currentLoginUserIsHadPermisionToOpGroup($id);
+            AclService::currentLoginUserIsHadPermisionToOpGroup($id);
         $isHadPermission || $this->renderJson(-2, '您所有的用户组没有操作该用户[组]的权限!');
 
         if (!in_array($type, [1, 2]) || $id < 1) {
@@ -111,7 +111,7 @@ class AclController extends CommonController
         $aclModel = new AccessModel();
         $aclModel->delByColumn($id, $field);
 
-        LogServer::addActionLog("修改了[{$field}:{$id}]的权限信息!");
+        LogService::addActionLog("修改了[{$field}:{$id}]的权限信息!");
 
         //授权的时候该管理员只能授权自己有的权限列表
         $currentLoginUsersHadAccessList = Acl::isSuperUser() ? [] : $this->getCurrentLoginUsersAcl();

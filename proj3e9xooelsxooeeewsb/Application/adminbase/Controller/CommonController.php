@@ -1,7 +1,7 @@
 <?php
 namespace adminbase\Controller;
 
-use adminbase\Server\ResponseServer;
+use adminbase\Service\ResponseService;
 use Cml\Config;
 use Cml\Cml;
 use Cml\Controller;
@@ -11,7 +11,7 @@ use Cml\Secure;
 use Cml\Vendor\Acl;
 use adminbase\Model\Acl\MenusModel;
 use adminbase\Model\System\SystemLogModel;
-use adminbase\Server\AclServer;
+use adminbase\Service\AclService;
 use Cml\View;
 
 class CommonController extends Controller
@@ -25,11 +25,11 @@ class CommonController extends Controller
         $user = Acl::getLoginInfo();
 
         if (!$user) {//未登录
-            Request::isAjax() ? ResponseServer::jsJump('adminbase/Public/login') : Response::redirect('adminbase/Public/login');
+            Request::isAjax() ? ResponseService::jsJump('adminbase/Public/login') : Response::redirect('adminbase/Public/login');
         }
 
         if (!Acl::checkAcl($this)) {//无权限
-            AclServer::noPermission();
+            AclService::noPermission();
         }
 
         $url = ltrim(str_replace('\\', '/',
@@ -110,6 +110,6 @@ class CommonController extends Controller
      */
     protected function renderJson($code = -1, $msg = '未登录', $data = [])
     {
-        ResponseServer::renderJson($code, $msg, $data);
+        ResponseService::renderJson($code, $msg, $data);
     }
 }

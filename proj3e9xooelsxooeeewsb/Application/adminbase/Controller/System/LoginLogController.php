@@ -6,14 +6,14 @@ use Cml\Http\Input;
 use Cml\View;
 use adminbase\Controller\CommonController;
 use adminbase\Model\System\LoginLogModel;
-use adminbase\Server\SearchServer;
+use adminbase\Service\SearchService;
 
 class LoginLogController extends CommonController
 {
     public function index()
     {
         $loginLogModel = new LoginLogModel();
-        SearchServer::processSearch([
+        SearchService::processSearch([
             'userid' => '',
             'start_time' => '>',
             'end_time' => '<'
@@ -34,7 +34,7 @@ class LoginLogController extends CommonController
     public function ajaxPage()
     {
         $loginLogModel = new LoginLogModel();
-        SearchServer::processSearch([
+        SearchService::processSearch([
             'userid' => '',
             'start_time' => '>',
             'end_time' => '<'

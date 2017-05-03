@@ -1,12 +1,12 @@
-<?php namespace adminbase\Server;
+<?php namespace adminbase\Service;
 
 use adminbase\Model\Acl\UsersModel;
 use Cml\Config;
-use Cml\Server;
+use Cml\Service;
 use Cml\Vendor\Acl;
 use Cml\View;
 
-class AclServer extends Server
+class AclService extends Service
 {
     /**
      * 显示无权限页

@@ -1,17 +1,17 @@
-<?php namespace adminbase\Server\System;
+<?php namespace adminbase\Service\System;
 
 use Cml\Http\Request;
 use Cml\Vendor\Acl;
 use Cml\Cml;
-use Cml\Server;
+use Cml\Service;
 use adminbase\Model\System\ActionLogModel;
 
 /**
- * Class LoginlogServer log服务类
+ * Class LoginlogService log服务类
  *
- * @package Server\System
+ * @package Service\System
  */
-class LogServer extends Server
+class LogService extends Service
 {
 
     /**

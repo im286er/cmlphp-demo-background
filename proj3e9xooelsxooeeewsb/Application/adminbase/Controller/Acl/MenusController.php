@@ -6,7 +6,7 @@
  */
 namespace adminbase\Controller\Acl;
 
-use adminbase\Server\System\LogServer;
+use adminbase\Service\System\LogService;
 use Cml\Http\Input;
 use Cml\View;
 use adminbase\Controller\CommonController;
@@ -67,7 +67,7 @@ class MenusController extends CommonController
         if (is_null($id)) {//新增
             $res = $menuModel->set($data);
         } else {
-            LogServer::addActionLog("修改了菜单[{$id}]的信息" . json_encode($data));
+            LogService::addActionLog("修改了菜单[{$id}]的信息" . json_encode($data));
             unset($data['pid']);
             $res = $menuModel->updateByColumn($id, $data);
         }
@@ -86,7 +86,7 @@ class MenusController extends CommonController
         if ($menuModel->hasSonMenus($id)) {
             $this->renderJson(-1, '该菜单下有子菜单不能删除！');
         } else {
-            LogServer::addActionLog("删除了菜单[{$id}]!");
+            LogService::addActionLog("删除了菜单[{$id}]!");
             $menuModel->delByColumn($id) ? $this->renderJson(0, '删除成功') : $this->renderJson(-1, '删除失败');
         }
     }
